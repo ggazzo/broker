@@ -1,0 +1,26 @@
+<template name="WidgetPackageChartLineMultipleAxis">
+  Device - variable
+  #{{size}}#
+  <form class="form" style="text-align:center">
+      <div class="form-group">
+        <label for="exampleInputName2">Title</label>
+        <input name='attr' class="form-control device"/>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputName2">Subtitle</label>
+        <textarea name='attr' class="form-control device"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="exampleInputName2">Y axis Label</label>
+        <textarea name='attr' class="form-control device"></textarea>
+      </div>
+      
+      {{#each loopCount size}}
+        {{> WidgetPackageChartLineDeviceAttr}}
+      {{/each}}
+    <div class="form-group">
+      <button type="button" name="button">add variable</button>
+    </div>
+  </form>
+</template>

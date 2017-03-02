@@ -1,0 +1,11 @@
+<template name="Dashboard">
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/Dashboards">Dashboards</a></li>
+    <li>{{dashboard.name}}</li>
+  </ol>
+  <h1>
+    {{dashboard.name}}
+  </h1>
+  {{# each widget in widgets}} {{widget.name}} {{> Template.dynamic template=widget.name data=widget}} {{/each}} {{dashboard.description}} {{> WidgetList data=groups }}
+</template>

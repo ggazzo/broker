@@ -1,0 +1,44 @@
+.widget-package {
+  text-align: center;
+  background: #FFF;
+  box-shadow: 0 2px 2px 1px #ccc;
+  padding: 15px;
+}
+.widget-package__form {
+  padding: 15px;
+  font-size: 24px;
+  text-align: left;
+}
+.widget-package__label {
+  padding: 15px;
+  font-size: 24px;
+  text-align: left;
+}
+.widget-package__wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.widget-package__container {
+  position: relative;
+  display: inline-block;
+  width: 140px;
+  height: 140px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.widget-package__container:hover {
+  background: #e7e7e7;
+  box-shadow: 0 0 1px 2px #ccc inset;
+}
+.widget-package__container__image {
+  width: 90px;
+  height: 90px;
+  min-height: 30px;
+  margin: 10px auto;
+  padding: 10px;
+}
+.widget-package__container__name {
+  font-size: 24px;
+}

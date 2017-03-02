@@ -1,0 +1,11 @@
+<template name="WidgetPackageChartLine">
+{{# autoForm schema="WidgetPackageChartLineSchema" id="userInsertForm" type="method"  meteormethod="widget.add" }}
+    {{> afQuickField name='title' }}
+    {{> afQuickField name='subtitle' }}
+    {{> afQuickField name='yAxis' }}
+    {{#  afArrayField  name = 'series' }}
+      {{> afQuickField   name="device" }}
+      {{> afQuickField   name="name" }}
+    {{/ afArrayField }}
+{{/autoForm }}
+</template>

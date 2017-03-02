@@ -1,0 +1,9 @@
+<template name="Thing">  
+    <div class="card">
+      <div class="new-recipe">
+      {{> NewThing}}
+      </div>
+      
+    </div>
+    {{#each things}} <p class="card">{{name}} - {{description}}</p> {{/each}}
+</template>

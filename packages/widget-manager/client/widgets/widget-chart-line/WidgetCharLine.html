@@ -1,0 +1,15 @@
+<template name="WidgetPackageChartLine">
+  Device - variable
+  <form class="form-inline" style="text-align:center">
+    <div class="form-group">
+      <label for="exampleInputName2">device</label>
+      <input type="text" class="form-control" id="exampleInputName2">
+    </div>
+    <div class="form-group">
+      <label for="exampleInputEmail2">variable</label>
+      <input type="email" class="form-control" id="exampleInputEmail2">
+    </div>
+
+    {{#each thing in things}} {{thing.name}} {{/each}}
+  </form>
+</template>
