@@ -6,8 +6,15 @@ WidgetSchema = new SimpleSchema({
     type: String,
     label: "dashboard"
   },
+  name: {
+    type: String,
+    label: "name"
+  },
   data: {
-    type: Object
+    type: Object,
+    label: "data",
+    blackbox: true
+
   },
   createAt: {
     type: Date,

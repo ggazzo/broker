@@ -2,16 +2,31 @@ import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
 SimpleSchema.extendOptions(['autoform'])
 
-const pluginName = "List"
-WidgetPackageChartLineSchema = new SimpleSchema({
+const pluginName = "Gauge"
+WidgetPackageGaugeSchema = new SimpleSchema({
   "title": {
     type: String
   },
-  "subtitle": {
+  "yAxis": {
+    label: 'Inner text',
     type: String
   },
-  "yAxis": {
-    type: String
+  bands: {
+    type: Array,
+    optional: false
+  },
+  "bands.$": Object,
+  "bands.$.from": {
+    type: Number
+  },
+  "bands.$.to": {
+    type: Number
+  },
+  "bands.$.color": {
+    type: String,
+    autoform: {
+      type: "color"
+    }
   },
   series: {
     type: Array,
@@ -34,7 +49,7 @@ WidgetPackageChartLineSchema = new SimpleSchema({
       }
     }
   },
-  "series.$.name": {
+  "series.$.suffix": {
     type: String
   },
   "series.$.attribute": {
@@ -54,12 +69,6 @@ WidgetPackageChartLineSchema = new SimpleSchema({
       }
     }
   },
-  "series.$.color": {
-    type: String,
-    autoform: {
-      type: "color"
-    }
-  },
   createAt: {
     type: Date,
     label: "Create At",
@@ -73,31 +82,31 @@ WidgetPackageChartLineSchema = new SimpleSchema({
 })
 Widgets.add({
   name: pluginName,
-  template: 'WidgetPackageChartLine',
+  template: 'WidgetPackageGauge',
   group: 'chart',
   description: 'bla bla',
-  image: '/chart.png',
-  schema: WidgetPackageChartLineSchema
+  image: '/gauge.png',
+  schema: WidgetPackageGaugeSchema
 })
 
 // 
-// Template.WidgetPackageChartLine.events({
+// Template.WidgetPackageGauge.events({
 //   'change select': function(e) {
 //     console.log(e, this)
 //   }
 // })
-// Template.WidgetPackageChartLineDeviceAttr.onRendered(function() {
+// Template.WidgetPackageGaugeDeviceAttr.onRendered(function() {
 //   $(this.find('.device')).select2()
 //   $(this.find('.attr')).select2()
 // })
-// Template.WidgetPackageChartLine.onCreated(function() {
-AutoForm.addHooks('WidgetPackageChartLineID', {
+// Template.WidgetPackageGauge.onCreated(function() {
+AutoForm.addHooks('WidgetPackageGauge', {
   onSubmit: function(insertDoc, updateDoc, currentDoc) {
     this.event.preventDefault()
 
     debugger
     Meteor.call('widgets.add', {
-      'name': 'WidgetChartLine',
+      'name': 'WidgetGauge',
       'dashboard': FlowRouter.current().params.id,
       data: {
         'title': insertDoc.title,
