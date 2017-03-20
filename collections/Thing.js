@@ -1,5 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 import RandToken from 'rand-token'
+import Variables from './Variables'
+
 SimpleSchema.extendOptions(['autoform'])
 Thing = new Meteor.Collection('Thing')
 ThingSchema = new SimpleSchema({
@@ -13,6 +15,31 @@ ThingSchema = new SimpleSchema({
     autoform: {
       afFieldInput: {
         type: "textarea"
+      }
+    }
+  },
+  variable: {
+    type: Array
+  },
+  'variable.$': {
+    type: Object
+  },
+  'variable.$.name': {
+    type: String
+  },
+  // 'variable.$.max': {
+  //   type: Number
+  // },
+  // 'variable.$.min': {
+  //   type: Number
+  // },
+  'variable.$.createAt': {
+    type: Date,
+    label: "Create At",
+    autoValue: () => new Date(),
+    autoform: {
+      afFieldInput: {
+        type: 'hidden'
       }
     }
   },
@@ -43,6 +70,16 @@ ThingSchema = new SimpleSchema({
   createAt: {
     type: Date,
     label: "Create At",
+    autoValue: () => new Date(),
+    autoform: {
+      afFieldInput: {
+        type: 'hidden'
+      }
+    }
+  },
+  lastUpdate: {
+    type: Date,
+    label: "Last Update",
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {

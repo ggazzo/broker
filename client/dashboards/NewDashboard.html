@@ -1,5 +1,12 @@
 <template name="NewDashboard">
-  <h1>New Dashboard</h1>
-  {{> quickForm collection="Dashboard" id="Dashboard" type="insert"}}
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/Dashboards">Dashboards</a></li>
+    <li>new</li>
+  </ol>
+  <div class="well">
+    <h1>New Dashboard</h1>
+    {{> quickForm collection="Dashboard" id="Dashboard" type="insert"}}
+  </div>
 </template>
 <!-- {{> quickForm collection="Thing" type="insert" id="Thing"}} -->

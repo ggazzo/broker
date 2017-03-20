@@ -1,14 +1,14 @@
  REST = new Restivus({
    // apiPath: 'my-api/',
-  //  auth: {
-  //    token: 'auth.apiKey',
-  //    user: function() {
-  //      return {
-  //        userId: this.request.headers['user-id'],
-  //        token: this.request.headers['login-token']
-  //      };
-  //    }
-  //  },
+   //  auth: {
+   //    token: 'auth.apiKey',
+   //    user: function() {
+   //      return {
+   //        userId: this.request.headers['user-id'],
+   //        token: this.request.headers['login-token']
+   //      };
+   //    }
+   //  },
    defaultHeaders: {
      'Content-Type': 'application/json'
    },
@@ -27,26 +27,30 @@
    post: function() {
      try {
        let {
-         token, value, name
+         token,
+         value,
+         name
        } = this.bodyParams
 
        let thing = Thing.findOne({
          token: token
        })
-
        if (thing == undefined) {
          throw new Meteor.Error('invalid_token', 'exception in route data');
        }
-     
-       return {
-         status: 'success',
-         message: 'Data inserted',
-         data: Data.insert({
-           name,
-           value,
-           owner: thing._id
-         })
-       }
+       let data = {
+         name,
+         value,
+         owner: thing._id
+       };
+       console.log(data);
+      //  return {
+      //    status: 'success',
+      //    message: 'Data inserted',
+      Data.insert(data)
+      
+      return data
+      //  }
      } catch (e) {
        return {
          statusCode: 404,

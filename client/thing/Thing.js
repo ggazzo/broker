@@ -1,10 +1,11 @@
+import { Session } from 'meteor/session'
+import moment from 'moment'
 
+///
 Template.Thing.helpers({  
-  things() {
-    return Thing.find({});
+  thing() {
+    return Thing.findOne(FlowRouter.current().params.id);
   }
 });
 
-Template.body.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('Things');
-});
+

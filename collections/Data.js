@@ -19,6 +19,21 @@ DataSchema = new SimpleSchema({
     autoValue: () => new Date()
   }
 })
-
 Data.attachSchema(DataSchema)
+let old = Data.insert
+
+Data.insert = function (doc) {
+  console.log("doc", doc);
+  old.apply(this, [doc])
+  Thing.update(doc.owner, {
+    $set: {
+      lastUpdate: new Date()
+    }
+  });
+}
+// Data.after.insert(function (userId, doc) {
+//   console.log(doc.owner, this);
+//   return doc
+// });
+
 export default Data

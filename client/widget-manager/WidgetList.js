@@ -1,4 +1,7 @@
 Template.WidgetList.helpers({
+  groups() {
+    return Widgets.getGroups()
+  },
   template() {
     const instance = Template.instance();
     return instance.state.get('selectedWidget').template

@@ -7,4 +7,8 @@
     export HTTP_FORWARDED_COUNT=1
     export MONGO_URL=mongodb://localhost:27017/iot
     export ROOT_URL=https://gazzo.xyz
+    # export NVM_DIR="$HOME/.nvm"
+    # exec [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+    # exec nvm install v4.6.2
+    # exec node -v
     exec node /home/iot/bundle/main.js

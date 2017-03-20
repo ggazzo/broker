@@ -5,10 +5,6 @@ VariablesSchema = new SimpleSchema({
     type: String,
     label: 'name'
   },
-  owner: {
-    type: String,
-    label: "Owner"
-  },
   createAt: {
     type: Date,
     label: "Create At",

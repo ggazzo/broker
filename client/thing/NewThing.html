@@ -1,5 +1,14 @@
 <template name="NewThing">
-  <h1>New thing</h1>
- {{> quickForm collection="Thing" id="insertBookForm" type="insert"}}
+  <ol class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><a href="/devices">devices</a></li>
+    <li>new</li>
+  </ol>
+  
+  <div class="well">
+    <h1>New thing</h1>
+
+    {{> quickForm collection="Thing" id="insertBookForm" type="insert"}}
+  </div>
 </template>
-  <!-- {{> quickForm collection="Thing" type="insert" id="Thing"}} -->
+<!-- {{> quickForm collection="Thing" type="insert" id="Thing"}} -->

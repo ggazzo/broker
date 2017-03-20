@@ -1,26 +1,27 @@
+
 <template name="Dashboards">
-  <ol class="breadcrumb">
-    <li><a href="/">Home</a></li>
-    <li>Dashboards</li>
-  </ol>
-  <div class="row">
-    <div class="card col-sm-4 col-md-3">
-      {{> NewDashboard}}
-    </div>
-    {{#each dashboards}}
-    <div class="col-sm-4 col-md-3">
-      <div class="thumbnail">
-        <div class="caption">
-          <h3>{{name}}</h3>
-          <p> {{description}}</p>
-          <p class="btn-group" role="group" aria-label="...">
-            <a href="/dashboards/{{_id}}" class="btn btn-info btn-xs" role="button">Open</a>
-            <a href="#" class="btn btn-primary btn-xs" role="button">Edit</a>
-            <a href="#" class="btn btn-deny btn-xs" role="button">Delete</a>
-          </p>
+  <div class="container dashboards">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li>Dashboards</li>
+    </ol>
+    <div class="row">
+      {{#each dashboards}}
+      <div class="col-sm-4 col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>{{name}}</h3>
+            <p> {{description}}</p>
+            <p class="btn-group" role="group" aria-label="...">
+              <a href="/dashboards/{{_id}}" class="btn btn-info btn-xs" role="button">Open</a>
+              <a href="#" class="btn btn-primary btn-xs" role="button">Edit</a>
+              <a href="#" class="btn btn-deny btn-xs" role="button">Delete</a>
+            </p>
+          </div>
         </div>
       </div>
+      {{/each}}
     </div>
-    {{/each}}
+    <a href="/dashboards/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
   </div>
 </template>

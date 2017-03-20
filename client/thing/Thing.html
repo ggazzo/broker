@@ -1,9 +1,35 @@
-<template name="Thing">  
-    <div class="card">
-      <div class="new-recipe">
-      {{> NewThing}}
+<template name="Thing">
+  <div class="container things">
+    <ol class="breadcrumb">
+      <li><a href="/">Home</a></li>
+      <li><a href="/devices">Devices</a></li>
+      <li>{{thing.name}}</li>
+    </ol>
+    <div class="row">
+      <div class="jumbotron">
+        {{> quickForm id='updateThing' type="update" collection='Thing' doc=thing autosave=true}}
       </div>
-      
+      <a href="/devices/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
     </div>
-    {{#each things}} <p class="card">{{name}} - {{description}}</p> {{/each}}
+    <div class="row">
+      {{#each thing.variables}}
+      <div class="col-sm-4 col-md-3">
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>{{name}}</h3>
+            <h4> {{description}}</h4>
+            <p> Last update: {{timeAgo lastUpdate}}</p>
+
+            <p class="btn-group" role="group" aria-label="...">
+              <a href="/device/{{_id}}" class="btn btn-info btn-xs" role="button">Open</a>
+              <a href="#" class="btn btn-primary btn-xs" role="button">Edit</a>
+              <a href="#" class="btn btn-deny btn-xs" role="button">Delete</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <a href="/devices/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
+  </div>
 </template>

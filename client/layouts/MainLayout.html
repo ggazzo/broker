@@ -1,10 +1,16 @@
 <template name="MainLayout">
+
   <header>
     <h1>IoT</h1>
     {{> loginButtons}} 
   </header>
-  {{> SideNav}}
-  <main class="main-layout">
-    {{> Template.dynamic template=main}}
-  </main>
+    {{#if currentUser}}
+          
+      {{> SideNav}}
+      <main class="main-layout">
+        {{> Template.dynamic template=main}}
+      </main>
+    {{else}}
+        {{> login}}
+    {{/if}}
 </template>

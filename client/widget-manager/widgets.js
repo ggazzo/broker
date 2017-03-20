@@ -20,7 +20,7 @@ Widgets.add = function({name, group, ...options}) {
   })
 }
 
-Widgets.getGroups = () => list
+Widgets.getGroups = () => Object.keys(list).map((g) => list[g])
 Widgets.get = (group) => list[group] || {}
 
 Widgets.addGroup({
