@@ -4,11 +4,14 @@
     <li><a href="/devices">devices</a></li>
     <li>new</li>
   </ol>
-  
+
   <div class="well">
     <h1>New thing</h1>
+    {{#autoForm collection="Thing" type="insert" id="insertBookForm"}} {{> afQuickField name="name"}} {{> afQuickField name="description"}}
+    <button type="submit" class="btn btn-primary"> Submit </button>
+    {{/autoForm}}
 
-    {{> quickForm collection="Thing" id="insertBookForm" type="insert"}}
+    <!-- {{> quickForm collection="Thing" id="insertBookForm" type="insert"}} -->
   </div>
 </template>
 <!-- {{> quickForm collection="Thing" type="insert" id="Thing"}} -->

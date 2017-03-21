@@ -41,7 +41,17 @@ ThingSchema = new SimpleSchema({
       afFieldInput: {
         type: 'hidden'
       }
-    }
+    },
+  },
+    'variable.$.lastUpdate': {
+      type: Date,
+      label: "Create At",
+      autoValue: () => new Date(),
+      autoform: {
+        afFieldInput: {
+          type: 'hidden'
+        }
+      }
   },
   owner: {
     type: String,

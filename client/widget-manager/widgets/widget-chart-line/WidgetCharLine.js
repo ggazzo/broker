@@ -1,4 +1,5 @@
 import Highcharts from 'highcharts'
+import Data from '../../../../collections/Data'
 require('highcharts/modules/exporting')(Highcharts)
 
 Template.WidgetChartLine.helpers({

@@ -1,36 +1,41 @@
-import { Random } from 'meteor/random'
+import {
+  Random
+} from 'meteor/random'
 import {
   Meteor
 } from 'meteor/meteor'
 import Thing from '../collections/Thing'
-ConsoleMe.enabled = true
+import Data from '../collections/Data'
+import Dashboard from '../collections/Dashboard'
+import Widget from '../collections/Widget'
+
 Meteor.startup(() => {
-  Data.mqttConnect("mqtt://test.mosquitto.org", (doc) => `${doc.owner}/${doc.name}`, 'value', {});
-});
+  Data.mqttConnect('mqtt://test.mosquitto.org', (doc) => `${doc.owner}/${doc.name}`, 'value', {})
+})
 
 // This code only runs on the server
 Meteor.publish('Things', function tasksPublication() {
   return Thing.find({
     owner: this.userId
-  });
-});
+  })
+})
 
 Meteor.publish('Widget', function(id) {
   let dashboard = Dashboard.findOne({
     owner: this.userId,
     _id: id,
-  });
+  })
   return dashboard ? Widget.find({
     dashboard: dashboard._id
-  }) : this.ready();
-});
+  }) : this.ready()
+})
 
 Meteor.publish('Data', function() {
   let things = Thing.find({
     owner: this.userId
   }).map(function(t) {
     return t._id
-  });
+  })
 
   return Data.find({
     owner: {
@@ -41,46 +46,29 @@ Meteor.publish('Data', function() {
       createAt: -1
     }
   })
-});
+})
 
-Meteor.publish('Variables', function(id) {
-
-  // 
-  let things = Thing.find({
-    owner: this.userId
-  }).map(function(t) {
-    return t._id
-  });
-
-  // let variables = Data.find({
-  //   owner: {
-  //     $in: things
-  //   }
-  // }, {
-  //   sort: {
-  //     createAt: 1
-  //   }
-  // }).distinct('name')
-  // 
+Meteor.publish('Variables', function() {
+ 
   let variables = Data.distinct('name')
   let self = this
   variables.forEach((v) => {
     self.added('Variables', Random.id(), {
       name: v
-    });
+    })
   })
   // 
   // return Variables.find(id ? {
   //   owner: [...id]
   // } : {});
-});
+})
 
 
 Meteor.publish('Dashboards', function() {
   return Dashboard.find({
     owner: this.userId
-  });
-});
+  })
+})
 
 Meteor.publish('Dashboard', function(id) {
   return Dashboard.find({
@@ -88,8 +76,8 @@ Meteor.publish('Dashboard', function(id) {
     _id: id,
   }, {
     limit: 1
-  });
-});
+  })
+})
 
 // Meteor.publish('previousInviteContacts', function() {
 //   self = this;
@@ -102,16 +90,16 @@ Meteor.publish('Dashboard', function(id) {
 //       invites: 1
 //     }
 //   }, {
-//     $unwind: "$invites"
+//     $unwind: '$invites'
 //   }, {
 //     $group: {
 //       _id: {
-//         email: "$invites.email"
+//         email: '$invites.email'
 //       }
 //     }
 //   }, {
 //     $project: {
-//       email: "$_id.email"
+//       email: '$_id.email'
 //     }
 //   }])
 //   _(contacts).each(function(contact) {

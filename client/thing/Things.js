@@ -12,7 +12,7 @@ Template.Things.onCreated(function bodyOnCreated() {
   Meteor.subscribe('Things');
 });
 
-Template.registerHelper('timeAgo', function (context, options) {
+Template.registerHelper('timeAgo', function (context) {
     Session.get("time");
     if (context) {
         return moment(context).fromNow();

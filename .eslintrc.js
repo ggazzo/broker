@@ -5,12 +5,16 @@ module.exports = {
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "spread": true
+        }
     },
     "rules": {
         "indent": [
             "error",
-            4
+            2
         ],
         "linebreak-style": [
             "error",
@@ -18,11 +22,11 @@ module.exports = {
         ],
         "quotes": [
             "error",
-            "double"
+            "single"
         ],
         "semi": [
             "error",
-            "always"
+            "never"
         ]
     }
 };

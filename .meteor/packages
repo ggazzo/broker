@@ -44,3 +44,4 @@ jcbernack:reactive-aggregate
 monbro:mongodb-mapreduce-aggregation
 #meteorhacks:kadira
 #meteorhacks:kadira-profiler
+matb33:collection-hooks

@@ -7,12 +7,31 @@
     </ol>
     <div class="row">
       <div class="jumbotron">
-        {{> quickForm id='updateThing' type="update" collection='Thing' doc=thing autosave=true}}
+        {{#autoForm collection="Thing" type="update" doc=thing id="updateBookForm"}} {{> afQuickField name="name"}} {{> afQuickField name="description"}}
+        <button type="submit" class="btn btn-primary"> edit </button> {{/autoForm}}
       </div>
       <a href="/devices/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
     </div>
+
+
+
+
+
+
     <div class="row">
-      {{#each thing.variables}}
+      <div class="col-sm-4 col-md-3">
+        {{# autoForm id="addVariable" type="update-pushArray" collection="Thing" doc=thing scope="variable"}}
+        <div class="thumbnail">
+          <div class="caption">
+            <h3>Add Variable</h3>
+            {{> afQuickField name="name"}}
+          </div>
+          <button type="submit" class="btn btn-primary"> add </button>
+        </div>
+
+        {{/autoForm}}
+      </div>
+      {{#each thing.variable}}
       <div class="col-sm-4 col-md-3">
         <div class="thumbnail">
           <div class="caption">
@@ -30,6 +49,5 @@
       </div>
       {{/each}}
     </div>
-    <a href="/devices/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
   </div>
 </template>
