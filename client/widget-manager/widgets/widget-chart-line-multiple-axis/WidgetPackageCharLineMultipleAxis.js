@@ -1,6 +1,6 @@
 import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
-const pluginName = "Multiple axis"
+const pluginName = 'Multiple axis'
 Widgets.add({
   name: pluginName,
   template: 'WidgetPackageChartLineMultipleAxis',

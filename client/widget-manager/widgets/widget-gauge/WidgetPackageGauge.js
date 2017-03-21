@@ -2,12 +2,12 @@ import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
 SimpleSchema.extendOptions(['autoform'])
 
-const pluginName = "Gauge"
+const pluginName = 'Gauge'
 WidgetPackageGaugeSchema = new SimpleSchema({
-  "title": {
+  'title': {
     type: String
   },
-  "yAxis": {
+  'yAxis': {
     label: 'Inner text',
     type: String
   },
@@ -15,47 +15,47 @@ WidgetPackageGaugeSchema = new SimpleSchema({
     type: Array,
     optional: false
   },
-  "bands.$": Object,
-  "bands.$.from": {
+  'bands.$': Object,
+  'bands.$.from': {
     type: Number
   },
-  "bands.$.to": {
+  'bands.$.to': {
     type: Number
   },
-  "bands.$.color": {
+  'bands.$.color': {
     type: String,
     autoform: {
-      type: "color"
+      type: 'color'
     }
   },
   series: {
     type: Array,
     optional: false
   },
-  "series.$": Object,
-  "series.$.device": {
+  'series.$': Object,
+  'series.$.device': {
     type: String,
     autoform: {
-      type: "select",
+      type: 'select',
       afFieldInput: {
         options: function() {
           return Thing.find().map(function(p) {
             return {
               label: p.name,
               value: p._id
-            };
-          });
+            }
+          })
         }
       }
     }
   },
-  "series.$.suffix": {
+  'series.$.suffix': {
     type: String
   },
-  "series.$.attribute": {
+  'series.$.attribute': {
     type: String,
     autoform: {
-      type: "select",
+      type: 'select',
       afFieldInput: {
         options: function() {
           return Variables.find().map(function(p) {
@@ -63,15 +63,15 @@ WidgetPackageGaugeSchema = new SimpleSchema({
               label: p.name,
               value: p.name
               // value: p._id.toHexString()
-            };
-          });
+            }
+          })
         }
       }
     }
   },
   createAt: {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
@@ -89,7 +89,7 @@ Widgets.add({
   schema: WidgetPackageGaugeSchema
 })
 
-// 
+//
 // Template.WidgetPackageGauge.events({
 //   'change select': function(e) {
 //     console.log(e, this)
@@ -103,8 +103,6 @@ Widgets.add({
 AutoForm.addHooks('WidgetPackageGauge', {
   onSubmit: function(insertDoc, updateDoc, currentDoc) {
     this.event.preventDefault()
-
-    debugger
     Meteor.call('widgets.add', {
       'name': 'WidgetGauge',
       'dashboard': FlowRouter.current().params.id,
@@ -115,13 +113,13 @@ AutoForm.addHooks('WidgetPackageGauge', {
         'series': insertDoc.series
       }
     }, (err, result) => {
-      if (err) return this.done(err); // failed to submit, call onError with the provided error
-      this.done(null, result); // submitted successfully, call onSuccess with `result` arg set to "foo"
+      if (err) return this.done(err) // failed to submit, call onError with the provided error
+      this.done(null, result) // submitted successfully, call onSuccess with `result` arg set to "foo"
 
     })
     // You must call this.done()!
     //this.done(); // submitted successfully, call onSuccess
   }
-}, true);
+}, true)
 
 // });

@@ -1,7 +1,9 @@
 import SimpleSchema from 'simpl-schema'
-Dashboard = new Meteor.Collection('Dashboard')
+import { Meteor } from 'meteor/meteor'
+
+const Dashboard = new Meteor.Collection('Dashboard')
 SimpleSchema.extendOptions(['autoform'])
-DashboardSchema = new SimpleSchema({
+const DashboardSchema = new SimpleSchema({
   name: {
     type: String,
     label: 'Name'
@@ -11,13 +13,13 @@ DashboardSchema = new SimpleSchema({
     label: 'Description',
     autoform: {
       afFieldInput: {
-        type: "textarea"
+        type: 'textarea'
       }
     }
   },
   owner: {
     type: String,
-    label: "Owner",
+    label: 'Owner',
     autoValue: function() {
       return this.userId
     },
@@ -29,7 +31,7 @@ DashboardSchema = new SimpleSchema({
   },
   createAt: {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {

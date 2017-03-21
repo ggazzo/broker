@@ -1,9 +1,9 @@
 import {
   Template
-} from 'meteor/templating';
+} from 'meteor/templating'
 
-import Data from '../../collections/Data';
-import Thing from '../../collections/Thing';
+import Data from '../../collections/Data'
+import Thing from '../../collections/Thing'
 
 // import './HomeLayout.html';
 
@@ -12,9 +12,9 @@ Template.HomeLayout.helpers({
     return 'aloha'
   },
   datalist() {
-    return Data.find({});
+    return Data.find({})
   },
   things() {
-    return Thing.find({});
+    return Thing.find({})
   }
-});
+})

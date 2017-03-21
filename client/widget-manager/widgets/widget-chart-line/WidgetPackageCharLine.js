@@ -2,45 +2,45 @@ import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
 SimpleSchema.extendOptions(['autoform'])
 
-const pluginName = "List"
+const pluginName = 'List'
 WidgetPackageChartLineSchema = new SimpleSchema({
-  "title": {
+  'title': {
     type: String
   },
-  "subtitle": {
+  'subtitle': {
     type: String
   },
-  "yAxis": {
+  'yAxis': {
     type: String
   },
   series: {
     type: Array,
     optional: false
   },
-  "series.$": Object,
-  "series.$.device": {
+  'series.$': Object,
+  'series.$.device': {
     type: String,
     autoform: {
-      type: "select",
+      type: 'select',
       afFieldInput: {
         options: function() {
           return Thing.find().map(function(p) {
             return {
               label: p.name,
               value: p._id
-            };
-          });
+            }
+          })
         }
       }
     }
   },
-  "series.$.name": {
+  'series.$.name': {
     type: String
   },
-  "series.$.attribute": {
+  'series.$.attribute': {
     type: String,
     autoform: {
-      type: "select",
+      type: 'select',
       afFieldInput: {
         options: function() {
           return Variables.find().map(function(p) {
@@ -48,21 +48,21 @@ WidgetPackageChartLineSchema = new SimpleSchema({
               label: p.name,
               value: p.name
               // value: p._id.toHexString()
-            };
-          });
+            }
+          })
         }
       }
     }
   },
-  "series.$.color": {
+  'series.$.color': {
     type: String,
     autoform: {
-      type: "color"
+      type: 'color'
     }
   },
   createAt: {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
@@ -106,13 +106,13 @@ AutoForm.addHooks('WidgetPackageChartLineID', {
         'series': insertDoc.series
       }
     }, (err, result) => {
-      if (err) return this.done(err); // failed to submit, call onError with the provided error
-      this.done(null, result); // submitted successfully, call onSuccess with `result` arg set to "foo"
+      if (err) return this.done(err) // failed to submit, call onError with the provided error
+      this.done(null, result) // submitted successfully, call onSuccess with `result` arg set to "foo"
 
     })
     // You must call this.done()!
     //this.done(); // submitted successfully, call onSuccess
   }
-}, true);
+}, true)
 
 // });

@@ -1,24 +1,26 @@
 import SimpleSchema from 'simpl-schema'
-Widget = new Meteor.Collection('Widget')
+import { Meteor } from 'meteor/meteor'
+
+const Widget = new Meteor.Collection('Widget')
 SimpleSchema.extendOptions(['autoform'])
-WidgetSchema = new SimpleSchema({
+const WidgetSchema = new SimpleSchema({
   dashboard: {
     type: String,
-    label: "dashboard"
+    label: 'dashboard'
   },
   name: {
     type: String,
-    label: "name"
+    label: 'name'
   },
   data: {
     type: Object,
-    label: "data",
+    label: 'data',
     blackbox: true
 
   },
   createAt: {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
