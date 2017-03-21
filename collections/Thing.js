@@ -1,10 +1,9 @@
 import SimpleSchema from 'simpl-schema'
 import RandToken from 'rand-token'
-import Variables from './Variables'
-
+/* globals Meteor */
 SimpleSchema.extendOptions(['autoform'])
-Thing = new Meteor.Collection('Thing')
-ThingSchema = new SimpleSchema({
+let Thing = new Meteor.Collection('Thing')
+let ThingSchema = new SimpleSchema({
   name: {
     type: String,
     label: 'Name'
@@ -14,7 +13,7 @@ ThingSchema = new SimpleSchema({
     label: 'Description',
     autoform: {
       afFieldInput: {
-        type: "textarea"
+        type: 'textarea'
       }
     }
   },
@@ -35,7 +34,7 @@ ThingSchema = new SimpleSchema({
   // },
   'variable.$.createAt': {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
@@ -43,19 +42,19 @@ ThingSchema = new SimpleSchema({
       }
     },
   },
-    'variable.$.lastUpdate': {
-      type: Date,
-      label: "Create At",
-      autoValue: () => new Date(),
-      autoform: {
-        afFieldInput: {
-          type: 'hidden'
-        }
+  'variable.$.lastUpdate': {
+    type: Date,
+    label: 'Create At',
+    autoValue: () => new Date(),
+    autoform: {
+      afFieldInput: {
+        type: 'hidden'
       }
+    }
   },
   owner: {
     type: String,
-    label: "Owner",
+    label: 'Owner',
     autoValue: function() {
       return this.userId
     },
@@ -67,9 +66,9 @@ ThingSchema = new SimpleSchema({
   },
   token: {
     type: String,
-    label: "token acess",
+    label: 'token acess',
     autoValue: function() {
-      return RandToken.generate(16);
+      return RandToken.generate(16)
     },
     autoform: {
       afFieldInput: {
@@ -79,7 +78,7 @@ ThingSchema = new SimpleSchema({
   },
   createAt: {
     type: Date,
-    label: "Create At",
+    label: 'Create At',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
@@ -89,7 +88,7 @@ ThingSchema = new SimpleSchema({
   },
   lastUpdate: {
     type: Date,
-    label: "Last Update",
+    label: 'Last Update',
     autoValue: () => new Date(),
     autoform: {
       afFieldInput: {
