@@ -1,7 +1,7 @@
 import SimpleSchema from 'simpl-schema'
 import { Meteor } from 'meteor/meteor'
 
-const Dashboard = new Meteor.Collection('Dashboard')
+Dashboard = new Meteor.Collection('Dashboard')
 SimpleSchema.extendOptions(['autoform'])
 const DashboardSchema = new SimpleSchema({
   name: {

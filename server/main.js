@@ -8,11 +8,6 @@ import Thing from '../collections/Thing'
 import Data from '../collections/Data'
 import Dashboard from '../collections/Dashboard'
 import Widget from '../collections/Widget'
-
-Meteor.startup(() => {
-  Data.mqttConnect('mqtt://test.mosquitto.org', (doc) => `${doc.owner}/${doc.name}`, 'value', {})
-})
-
 // This code only runs on the server
 Meteor.publish('Things', function tasksPublication() {
   return Thing.find({
@@ -43,13 +38,13 @@ Meteor.publish('Data', function() {
     }
   }, {
     sort: {
-      createAt: -1
+      createAt: 1
     }
   })
 })
 
 Meteor.publish('Variables', function() {
- 
+
   let variables = Data.distinct('name')
   let self = this
   variables.forEach((v) => {
@@ -57,7 +52,7 @@ Meteor.publish('Variables', function() {
       name: v
     })
   })
-  // 
+  //
   // return Variables.find(id ? {
   //   owner: [...id]
   // } : {});

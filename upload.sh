@@ -3,14 +3,14 @@
 ### Configuration ###/
 SERVER=root@gazzo.xyz
 APP_DIR=/home/iot
-KEYFILE="./../.ssh/id_rsa"
+KEYFILE="~/.ssh/id_rsa"
 REMOTE_SCRIPT_PATH=/home/deploy.sh
 ### Library ###
 function run() {
   echo "Running: $@"
   "$@"
 }
-# 
+#
 echo "initializing build"
 # ### Automation steps ###
 if [[ "$KEYFILE" != "" ]]; then
@@ -19,7 +19,7 @@ else
   KEYARG=
 fi
 # if [[ `meteor --version` =~ "Meteor 1.4."* ]]; then
-  # run meteor build --server-only ../output --architecture os.linux.x86_64
+  run meteor build --server-only ../output --architecture os.linux.x86_64
   mv ../output/*.tar.gz ./package.tar.gz
 # else
 #   run meteor bundle package.tar.gz

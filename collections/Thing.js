@@ -2,7 +2,7 @@ import SimpleSchema from 'simpl-schema'
 import RandToken from 'rand-token'
 /* globals Meteor */
 SimpleSchema.extendOptions(['autoform'])
-let Thing = new Meteor.Collection('Thing')
+Thing = new Meteor.Collection('Thing')
 let ThingSchema = new SimpleSchema({
   name: {
     type: String,

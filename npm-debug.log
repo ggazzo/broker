@@ -1,0 +1,103 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node',
+1 verbose cli   '/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/npm',
+1 verbose cli   'install',
+1 verbose cli   '--save',
+1 verbose cli   'aldeed' ]
+2 info using npm@4.1.2
+3 info using node@v4.7.3
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly fetchPackageMetaData aldeed
+8 silly fetchNamedPackageData aldeed
+9 silly mapToRegistry name aldeed
+10 silly mapToRegistry using default registry
+11 silly mapToRegistry registry https://registry.npmjs.org/
+12 silly mapToRegistry data Result {
+12 silly mapToRegistry   raw: 'aldeed',
+12 silly mapToRegistry   scope: null,
+12 silly mapToRegistry   escapedName: 'aldeed',
+12 silly mapToRegistry   name: 'aldeed',
+12 silly mapToRegistry   rawSpec: '',
+12 silly mapToRegistry   spec: 'latest',
+12 silly mapToRegistry   type: 'tag' }
+13 silly mapToRegistry uri https://registry.npmjs.org/aldeed
+14 verbose request uri https://registry.npmjs.org/aldeed
+15 verbose request no auth needed
+16 info attempt registry request try #1 at 1:33:51 AM
+17 verbose request id 8a1a6246047c3724
+18 http request GET https://registry.npmjs.org/aldeed
+19 info retry will retry, error on last attempt: Error: getaddrinfo ENOTFOUND registry.npmjs.org registry.npmjs.org:443
+20 info attempt registry request try #2 at 1:34:01 AM
+21 http request GET https://registry.npmjs.org/aldeed
+22 http 404 https://registry.npmjs.org/aldeed
+23 verbose headers { 'content-type': 'application/json',
+23 verbose headers   'cache-control': 'max-age=0',
+23 verbose headers   'content-length': '2',
+23 verbose headers   'accept-ranges': 'bytes',
+23 verbose headers   date: 'Wed, 05 Apr 2017 04:34:03 GMT',
+23 verbose headers   via: '1.1 varnish',
+23 verbose headers   age: '0',
+23 verbose headers   connection: 'keep-alive',
+23 verbose headers   'x-served-by': 'cache-gru7122-GRU',
+23 verbose headers   'x-cache': 'MISS',
+23 verbose headers   'x-cache-hits': '0',
+23 verbose headers   'x-timer': 'S1491366842.981446,VS0,VE991',
+23 verbose headers   vary: 'Accept-Encoding' }
+24 silly get cb [ 404,
+24 silly get   { 'content-type': 'application/json',
+24 silly get     'cache-control': 'max-age=0',
+24 silly get     'content-length': '2',
+24 silly get     'accept-ranges': 'bytes',
+24 silly get     date: 'Wed, 05 Apr 2017 04:34:03 GMT',
+24 silly get     via: '1.1 varnish',
+24 silly get     age: '0',
+24 silly get     connection: 'keep-alive',
+24 silly get     'x-served-by': 'cache-gru7122-GRU',
+24 silly get     'x-cache': 'MISS',
+24 silly get     'x-cache-hits': '0',
+24 silly get     'x-timer': 'S1491366842.981446,VS0,VE991',
+24 silly get     vary: 'Accept-Encoding' } ]
+25 silly fetchPackageMetaData Error: Registry returned 404 for GET on https://registry.npmjs.org/aldeed
+25 silly fetchPackageMetaData     at makeError (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:304:12)
+25 silly fetchPackageMetaData     at CachingRegistryClient.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:282:14)
+25 silly fetchPackageMetaData     at Request._callback (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:212:14)
+25 silly fetchPackageMetaData     at Request.self.callback (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:186:22)
+25 silly fetchPackageMetaData     at emitTwo (events.js:87:13)
+25 silly fetchPackageMetaData     at Request.emit (events.js:172:7)
+25 silly fetchPackageMetaData     at Request.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:1081:10)
+25 silly fetchPackageMetaData     at emitOne (events.js:77:13)
+25 silly fetchPackageMetaData     at Request.emit (events.js:169:7)
+25 silly fetchPackageMetaData     at IncomingMessage.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:1001:12)
+25 silly fetchPackageMetaData  error for aldeed { [Error: Registry returned 404 for GET on https://registry.npmjs.org/aldeed] pkgid: 'aldeed', statusCode: 404, code: 'E404' }
+26 silly rollbackFailedOptional Starting
+27 silly rollbackFailedOptional Finishing
+28 silly runTopLevelLifecycles Finishing
+29 silly install printInstalled
+30 verbose stack Error: Registry returned 404 for GET on https://registry.npmjs.org/aldeed
+30 verbose stack     at makeError (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:304:12)
+30 verbose stack     at CachingRegistryClient.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:282:14)
+30 verbose stack     at Request._callback (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:212:14)
+30 verbose stack     at Request.self.callback (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:186:22)
+30 verbose stack     at emitTwo (events.js:87:13)
+30 verbose stack     at Request.emit (events.js:172:7)
+30 verbose stack     at Request.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:1081:10)
+30 verbose stack     at emitOne (events.js:77:13)
+30 verbose stack     at Request.emit (events.js:169:7)
+30 verbose stack     at IncomingMessage.<anonymous> (/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/lib/node_modules/npm/node_modules/request/request.js:1001:12)
+31 verbose statusCode 404
+32 verbose pkgid aldeed
+33 verbose cwd /home/gazzo/broker
+34 error Linux 4.8.0-45-generic
+35 error argv "/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/node" "/home/gazzo/.meteor/packages/meteor-tool/.1.4.3_1.19f5imq++os.linux.x86_64+web.browser+web.cordova/mt-os.linux.x86_64/dev_bundle/bin/npm" "install" "--save" "aldeed"
+36 error node v4.7.3
+37 error npm  v4.1.2
+38 error code E404
+39 error 404 Registry returned 404 for GET on https://registry.npmjs.org/aldeed
+40 error 404
+41 error 404 'aldeed' is not in the npm registry.
+42 error 404 You should bug the author to publish it (or use the name yourself!)
+43 error 404 Note that you can also install from a
+44 error 404 tarball, folder, http url, or git url.
+45 verbose exit [ 1, true ]
