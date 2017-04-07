@@ -11,7 +11,7 @@ const Mongo = Package.mongo.Mongo
 var ascoltatore = {
   //using ascoltatore
   type: 'mongo',
-  url: 'mongodb://localhost:3001/mqtt',
+  url: 'mongodb://localhost:27017/mqtt',
   pubsubCollection: 'ascoltatori',
   mongo: {}
 }
