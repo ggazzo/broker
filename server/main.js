@@ -25,18 +25,35 @@ Meteor.publish('Widget', function(id) {
   }) : this.ready()
 })
 
-Meteor.publish('Data', function() {
-  let things = Thing.find({
-    owner: this.userId
-  }).map(function(t) {
-    return t._id
-  })
+Meteor.publish('DataFromDashboard', function({keys, variables}) {
+  if (!Meteor.userId || !keys || !variables) {
+    return []
+  }
 
+  let things = Thing.find({
+    owner: Meteor.userId
+  })
+  if(!things){
+    return
+  }
+  console.log(variables);
   return Data.find({
     owner: {
-      $in: things
+      $in: things.map(({_id}) => _id)
+    },
+    name: {
+      $in : variables
+    },
+    createAt:{
+      "$gte": new Date()
     }
   }, {
+    fields: {
+      value: 1,
+      createAt:1,
+      owner: 1,
+      name: 1
+    },
     sort: {
       createAt: 1
     }

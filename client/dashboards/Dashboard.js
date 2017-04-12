@@ -22,7 +22,7 @@ Template.Dashboard.onRendered(function functionName() {
 
 
 Template.Dashboard.onCreated(function bodyOnCreated() {
-  Meteor.subscribe('Data')
+  // Meteor.subscribe('Data')
   Meteor.subscribe('Variables')
   Meteor.subscribe('Widget', FlowRouter.current().params.id)
 })
