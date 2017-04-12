@@ -1,4 +1,4 @@
-import Highcharts from 'highcharts'
+import Highcharts from 'highcharts/highstock'
 import Data from '../../../../collections/Data'
 require('highcharts/modules/exporting')(Highcharts)
 
@@ -43,7 +43,7 @@ Template.WidgetChartLine.onRendered(async function() {
     return
   }
   this.subscribe('DataFromDashboard', {keys: widget.series.map(({device}) => device), variables: widget.series.map(({attribute}) => attribute)} )
-  let map = Highcharts.chart(that.find('.graph'), {
+  let map = Highcharts.stockChart(that.find('.graph'), {
     chart: {
       animation: false,
       zoomType: 'x',
@@ -65,7 +65,30 @@ Template.WidgetChartLine.onRendered(async function() {
         }
       }
     },
+    rangeSelector: {
 
+                buttons: [{
+                    type: 'day',
+                    count: 1,
+                    text: '1d'
+                },{
+                    type: 'day',
+                    count: 3,
+                    text: '3d'
+                }, {
+                    type: 'week',
+                    count: 1,
+                    text: '1w'
+                }, {
+                    type: 'month',
+                    count: 1,
+                    text: '1m'
+                }, {
+                    type: 'all',
+                    text: 'All'
+                }],
+                selected: 0
+            },
     title: {
       text: widget.title
     },
