@@ -4,8 +4,12 @@ import Thing from './Thing'
 let Data = new Meteor.Collection('Data')
 let DataSchema = new SimpleSchema({
   value: {
-    type: String,
+    type: Number,
     label: 'value'
+  },
+  text: {
+    type: String,
+    label: 'value',
   },
   name: {
     type: String,

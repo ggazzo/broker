@@ -30,7 +30,8 @@ server.on('published',  Meteor.bindEnvironment(function ({topic, payload}, clien
   const [,name] = topic.split('/');
   let data = {
     name,
-    value: payload.toString(),
+    text: payload.toString(),
+    value: parseFloat(payload.toString()),
     owner: client.thing._id
   }
   //  return {
