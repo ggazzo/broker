@@ -32,14 +32,14 @@ Meteor.publish('DataFromDashboard', function({keys, variables}) {
 
   let things = Thing.find({
     owner: Meteor.userId
-  })
+  }).map(({_id}) => _id)
   if(!things){
     return
   }
-  console.log(variables);
+
   return Data.find({
     owner: {
-      $in: things.map(({_id}) => _id)
+      $in: things
     },
     name: {
       $in : variables

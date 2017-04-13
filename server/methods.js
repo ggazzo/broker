@@ -15,7 +15,7 @@ Meteor.methods({
       return Widget.insert(widget)
     }
   },
-  'data.get' ({id, key}) {
+  'data.get.old' ({id, key}) {
     if (!Meteor.userId || !id || !key) {
       return []
     }
@@ -41,5 +41,49 @@ Meteor.methods({
         createAt: 1
       }
     }).fetch()
+  },
+  'data.get' ({id, key}) {
+    if (!Meteor.userId || !id || !key) {
+      return []
+    }
+
+    const thing = Thing.findOne({
+      owner: Meteor.userId,
+      _id: id
+    })
+
+    if(!thing) {
+      return []
+    }
+
+    return Data.aggregate([{$match:{name:'temperature'}},{
+      $group:{
+        _id:{
+          year: { $year: '$createAt' },
+          month: { $month: '$createAt' },
+          day: { $dayOfMonth: '$createAt' },
+          hour: { $hour: '$createAt' },
+          "interval": {
+                "$subtract": [
+                    { "$minute": "$createAt" },
+                    { "$mod": [{ "$minute": "$createAt"}, 5] }
+                ]
+            }
+          // minutes: { $minute: '$createAt' },
+          //            s: { $second: "$createAt" }
+        },
+        value:{$avg:'$value'},
+        createAt: {$first : '$createAt'}
+      }
+    },{
+
+      $group:{
+        _id:'x',
+        v:{$push:'$value'},
+        c:{$push:'$createAt'},
+      }
+
+    }])[0]
+
   }
 })

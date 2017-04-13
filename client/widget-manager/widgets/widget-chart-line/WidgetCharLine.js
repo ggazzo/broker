@@ -33,7 +33,7 @@ Template.WidgetChartLine.onRendered(async function() {
         }
         const ret = {
           ...options,
-          data: data.map(data => [new Date(data.createAt).getTime(), parseFloat(data.value)])
+          data: data.v.map((value, index) => [new Date(data.c[index]).getTime(), parseFloat(value)]).sort(([dataA], [dataB]) => dataA - dataB)
         }
         return resolve(ret);
       });
