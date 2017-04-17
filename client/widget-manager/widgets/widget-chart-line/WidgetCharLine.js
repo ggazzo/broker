@@ -42,6 +42,11 @@ Template.WidgetChartLine.onRendered(async function() {
   if (series.length == 0) {
     return
   }
+  Highcharts.setOptions({
+    global: {
+      timezoneOffset: new Date().getTimezoneOffset()
+    }
+  })
   this.subscribe('DataFromDashboard', {keys: widget.series.map(({device}) => device), variables: widget.series.map(({attribute}) => attribute)} )
   let map = Highcharts.stockChart(that.find('.graph'), {
     chart: {
