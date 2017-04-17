@@ -128,7 +128,7 @@ Template.WidgetChartLine.onRendered(async function() {
 
       line: {
         dataLabels: {
-          enabled: true
+          // enabled: true
         }
       }
     },

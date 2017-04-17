@@ -29,17 +29,17 @@ Widgets.addGroup({
   image: '/chart.png'
 })
 
-Widgets.addGroup({
-  name: 'metric',
-  description: 'bla bla',
-  image: '/metric.png'
-})
-
-Widgets.addGroup({
-  name: 'table',
-  description: 'bla bla',
-  image: '/table.png'
-})
+// Widgets.addGroup({
+//   name: 'metric',
+//   description: 'bla bla',
+//   image: '/metric.png'
+// })
+//
+// Widgets.addGroup({
+//   name: 'table',
+//   description: 'bla bla',
+//   image: '/table.png'
+// })
 
 
 export default Widgets
