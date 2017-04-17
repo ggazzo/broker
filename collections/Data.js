@@ -1,7 +1,68 @@
 /* globals Meteor*/
 import SimpleSchema from 'simpl-schema'
 import Thing from './Thing'
-let Data = new Meteor.Collection('Data')
+import {Mongo} from 'meteor/mongo'
+// let Data = new Meteor.Collection('Data')
+
+class data extends Mongo.Collection {
+  constructor(...args){
+    super(...args)
+    this._hooks = []
+  }
+  insert(params, callback) {
+    const p  = this._hooks['before'].reduce((result, hook) => hook(result), params)
+    return super.insert(p, (err, result) => {
+      // console.log(result);
+      this._hooks['after'].forEach(hook => hook(p))
+      callback && callback(err, result)
+    })
+  }
+  addHook(step, hook){
+    this._hooks[step] = (this._hooks[step]||[]).concat(hook)
+  }
+}
+
+let Data = new data('Data')
+/* check variable, create if doesnt exist.*/
+Data.addHook('before', (params) => {
+  const thing = Thing.findOne({
+    '_id' : params.owner,
+    'variable.name':params.name
+  },{fields:{_id: 0,'variable.$':1}})
+  const [variable] = (thing && thing.variable) || []
+
+  if(! variable) {
+    Thing.update({_id: params.owner}, {$push:{variable: {name: params.name}}}, {bypassCollection2: true})
+  } else if (variable.fn) {
+    const vm = require('vm')
+    const code = `
+    (function(x){
+      return ${variable.fn}
+    })
+    `
+    try {
+      params.value = vm.runInNewContext(code)(params.value)
+    } catch(e){
+      console.error(e)
+    }
+  }
+  return params
+})
+
+/* update lastUpdate Thing*/
+Data.addHook('after', ({owner, name}) => {
+  return Thing.update({
+    '_id' : owner,
+    'variable.name': name
+  }, {$set:{lastUpdate: new Date(),'variable.0.lastUpdate': new Date()}}, {bypassCollection2: true})
+})
+
+
+
+
+
+
+
 let DataSchema = new SimpleSchema({
   value: {
     type: Number,
@@ -17,7 +78,8 @@ let DataSchema = new SimpleSchema({
   },
   owner: {
     type: String,
-    label: 'Owner'
+    label: 'Owner',
+    // optional: true
   },
   createAt: {
     type: Date,
@@ -26,25 +88,4 @@ let DataSchema = new SimpleSchema({
   }
 })
 Data.attachSchema(DataSchema)
-// let old = Data.insert
-//
-// Data.insert = function (doc) {
-//   console.log('doc', doc);
-//   old.apply(this, [doc])
-//   Thing.update(doc.owner, {
-//     $set: {
-//       lastUpdate: new Date()
-//     }
-//   });
-// }
-// // if (Meteor.isServer) {
-//   Data.after.insert(function(userId, doc) {
-//     return Thing.update(doc.owner, {
-//       $set: {
-//         lastUpdate: new Date()
-//       }
-//     })
-//   })
-// }
-
 export default Data

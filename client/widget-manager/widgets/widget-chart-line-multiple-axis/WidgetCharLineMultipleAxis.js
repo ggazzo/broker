@@ -104,7 +104,9 @@ Template.WidgetChartLineMultipleAxis.onRendered(function() {
         series: series.map(({
           cursor,
           ...options
-        }) => options)
+        }) => {return {...options,dataGrouping: {
+                enabled: false
+            }}})
       });
 
     } catch (e) {

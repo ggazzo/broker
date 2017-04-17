@@ -1,13 +1,13 @@
 <template name="HomeLayout">
 
     {{#if currentUser}}
-          
+
     <header>
       {{> nav}}
     </header>
       {{> SideNav}}
       <main class="main-layout container">
-        
+
         {{> Template.dynamic template=main}}
       </main>
     {{else}}

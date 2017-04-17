@@ -26,7 +26,8 @@ var settings = {
 
 var server = new mosca.Server(settings)
 server.on('published',  Meteor.bindEnvironment(function ({topic, payload}, client= {}) {
-  if(!client.thing){return;}
+
+  if(!client.thing){return}
   const [,name] = topic.split('/');
   let data = {
     name,
