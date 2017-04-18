@@ -15,6 +15,19 @@ Meteor.methods({
       return Widget.insert(widget)
     }
   },
+
+  'grid.save' (params) {
+    // TODO: verify if the dashboard belogns to user
+    if (Meteor.userId) {
+
+      // Widget.findOne()
+      params.forEach(({_id, ...args}) => {
+        Widget.update({_id}, {$set:{grid:args}}, {bypassCollection2: true}, function () {
+        })
+      })
+      return params
+    }
+  },
   'data.get.old' ({id, key}) {
     if (!Meteor.userId || !id || !key) {
       return []
@@ -42,6 +55,26 @@ Meteor.methods({
       }
     }).fetch()
   },
+  'data.add' ({id, key, value}) {
+    if (!Meteor.userId || !id || !key || value == undefined) {
+      return []
+    }
+
+    const thing = Thing.findOne({
+      owner: Meteor.userId,
+      _id: id
+    })
+    if(!thing) {
+      return []
+    }
+    let data = {
+      name: key,
+      text: value.toString(),
+      value: parseFloat(value),
+      owner: id
+    }
+    return Data.insert(data)
+  },
   'data.get' ({id, key}) {
     if (!Meteor.userId || !id || !key) {
       return []
@@ -56,7 +89,9 @@ Meteor.methods({
       return []
     }
 
-    return Data.aggregate([{$match:{name:'temperature'}},{
+    return Data.aggregate([
+      {$match:{name:key, owner:thing._id}},
+      {
       $group:{
         _id:{
           year: { $year: '$createAt' },
