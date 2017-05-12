@@ -23,6 +23,7 @@ Meteor.methods({
       // Widget.findOne()
       params.forEach(({_id, ...args}) => {
         Widget.update({_id}, {$set:{grid:args}}, {bypassCollection2: true}, function () {
+          // console.log(arguments);
         })
       })
       return params
@@ -56,12 +57,12 @@ Meteor.methods({
     }).fetch()
   },
   'data.add' ({id, key, value}) {
-    if (!Meteor.userId || !id || !key || value == undefined) {
+    if (!Meteor.userId() || !id || !key || value == undefined) {
       return []
     }
 
     const thing = Thing.findOne({
-      owner: Meteor.userId,
+      owner: Meteor.userId(),
       _id: id
     })
     if(!thing) {
@@ -75,22 +76,25 @@ Meteor.methods({
     }
     return Data.insert(data)
   },
-  'data.get' ({id, key}) {
-    if (!Meteor.userId || !id || !key) {
-      return []
+  'data.get' ({id, key, createAt}) {
+    if (!Meteor.userId() || !id || !key) {
+      return {}
     }
 
     const thing = Thing.findOne({
-      owner: Meteor.userId,
+      owner: Meteor.userId(),
       _id: id
     })
 
     if(!thing) {
-      return []
+      return {}
     }
-
+    const match = {name:key, owner:thing._id}
+    if (createAt) {
+      match.createAt = {$gte:new Date(createAt)}
+    }
     return Data.aggregate([
-      {$match:{name:key, owner:thing._id}},
+      {$match:match},
       {
       $group:{
         _id:{
@@ -118,7 +122,7 @@ Meteor.methods({
         c:{$push:'$createAt'},
       }
 
-    }])[0]
+    }])[0] || [{v:[],c:[]}]
 
   }
 })

@@ -48,3 +48,4 @@ monbro:mongodb-mapreduce-aggregation
 matb33:collection-hooks
 lwakefield:vue
 meteorhacks:aggregate
+dispatch:run-as-user

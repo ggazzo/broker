@@ -1,17 +1,18 @@
 import Thing from '../collections/Thing'
 import Data from '../collections/Data'
+const authRequired = true
 /* globals Restivus, Meteor*/
 let REST = new Restivus({
   // apiPath: 'my-api/',
-  //  auth: {
-  //    token: 'auth.apiKey',
-  //    user: function() {
-  //      return {
-  //        userId: this.request.headers['user-id'],
-  //        token: this.request.headers['login-token']
-  //      };
-  //    }
-  //  },
+  auth: {
+    token: 'services.resume.loginTokens.hashedToken',
+    user() {
+      return {
+        userId: this.request.headers['x-user-id'],
+        token: this.request.headers['x-auth-token']
+      }
+    }
+  },
   defaultHeaders: {
     'Content-Type': 'application/json'
   },
@@ -23,42 +24,15 @@ let REST = new Restivus({
   useDefaultAuth: true,
   // version: 'v1'
 })
-REST.addRoute('data', {
-  post: function() {
-    try {
-      let {
-        token,
-        value,
-        name
-      } = this.bodyParams
-
-      let thing = Thing.findOne({
-        token: token
+REST.addRoute('data/:id/:key', { authRequired }, {
+  get() {
+    let data
+    Meteor.runAsUser(this.userId, () => {
+      data =  Meteor.call('data.get', {
+        id: this.urlParams.id, key: this.urlParams.key, createAt: this.queryParams.createAt
       })
-      if (thing == undefined) {
-        throw new Meteor.Error('invalid_token', 'exception in route data')
-      }
-      let data = {
-        name,
-        value,
-        owner: thing._id
-      }
-      //  return {
-      //    status: 'success',
-      //    message: 'Data inserted',
-      Data.insert(data)
-
-      return data
-      //  }
-    } catch (e) {
-      return {
-        statusCode: 404,
-        body: {
-          status: 'fail',
-          message: e.message
-        }
-      }
-    }
+    })
+    return data
   }
 })
 

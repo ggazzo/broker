@@ -45,7 +45,7 @@ Meteor.publish('DataFromDashboard', function({keys, variables}) {
       $in : variables
     },
     createAt:{
-      "$gte": new Date()
+      '$gte': new Date()
     }
   }, {
     fields: {
