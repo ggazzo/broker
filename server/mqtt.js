@@ -18,7 +18,7 @@ var ascoltatore = {
 
 var settings = {
   logger: {
-    level: 'debug'
+    // level: 'debug'
   },
   port: 1883,
   backend: ascoltatore
@@ -86,3 +86,4 @@ var authorizeSubscribe = Meteor.bindEnvironment(function(client, topic, callback
 //   if (this._mqttClient) this._mqttClient.end()
 //   this._mqttClient = null
 // }
+export default server

@@ -1,28 +1,28 @@
 import Thing from '../collections/Thing'
-import Data from '../collections/Data'
+// import Data from '../collections/Data'
 const authRequired = true
 /* globals Restivus, Meteor*/
 let REST = new Restivus({
   // apiPath: 'my-api/',
-  auth: {
-    token: 'services.resume.loginTokens.hashedToken',
-    user() {
-      return {
-        userId: this.request.headers['x-user-id'],
-        token: this.request.headers['x-auth-token']
-      }
-    }
-  },
-  defaultHeaders: {
-    'Content-Type': 'application/json'
-  },
-  onLoggedIn: function() {
-    Meteor.setUserId(this.userId)
-  },
-  onLoggedOut: function() {},
+  // auth: {
+  //   token: 'services.resume.loginTokens.hashedToken',
+  //   user() {
+  //     return {
+  //       userId: this.request.headers['x-user-id'],
+  //       token: this.request.headers['x-auth-token']
+  //     }
+  //   }
+  // },
+  // defaultHeaders: {
+  //   'Content-Type': 'application/json'
+  // },
+  // onLoggedIn: function() {
+  //   Meteor.setUserId(this.userId)
+  // },
+  // onLoggedOut: function() {},
   prettyJson: true,
   useDefaultAuth: true,
-  // version: 'v1'
+  version: 'v1'
 })
 REST.addRoute('data/:id/:key', { authRequired }, {
   get() {
