@@ -60,6 +60,35 @@ Meteor.publish('DataFromDashboard', function({keys, variables}) {
   })
 })
 
+
+Meteor.publish('dataLast', function({device, variable}) {
+  if (!Meteor.userId || !device || !variable) {
+    return []
+  }
+  let things = Thing.findOne({
+    owner: Meteor.userId,
+    _id: device
+  })
+  if(!things){
+    return
+  }
+  return Data.find({
+    owner: things._id,
+    name: variable,
+  }, {
+    fields: {
+      value: 1,
+      createAt:1,
+      owner: 1,
+      name: 1
+    },
+    limit: 1,
+    sort: {
+      createAt: -1
+    }
+  })
+})
+
 Meteor.publish('Variables', function() {
 
   let variables = Data.distinct('name')
