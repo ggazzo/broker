@@ -16,16 +16,43 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  const requestToFetch = event.request.clone();
+  const requestToFetch = event.request.clone()
   event.respondWith(
   caches.match(event.request.clone()).then((cached) => {
     // We don't return cached HTML (except if fetch failed)
     if (cached) {
-      const resourceType = cached.headers.get('content-type');
+      const resourceType = cached.headers.get('content-type')
       // We only return non css/js/html cached response e.g images
+
+
+      if(event.request.url.indexOf('api/v1/data') > -1) {
+        requestToFetch.url = `${ event.request.url }?createAt=${ new Date().toISOString() }`
+        return fetch(requestToFetch).then((response)=> {
+          return Promise.all([response.clone().json(), cached.json()]).then(([n, o]) => {
+            o.v = [...o.v,...n.v]
+            o.c = [...o.v,...n.v]
+            return o
+          }).then(mergedData => {
+            const clone1 = response.clone();
+            const fakeResponse = new Response(new Blob([JSON.stringify(mergedData, null, 2)], {type : 'application/json'}), response.clone())
+            if (hasHash(event.request.url)) {
+              caches.open(version).then(cache => cache.keys().then(keys => keys.forEach((asset) => {
+                if (new RegExp(removeHash(event.request.url)).test(removeHash(asset.url))) {
+                  cache.delete(asset)
+                }
+              })))
+            }
+            caches.open(version).then(cache => {
+              cache.put(event.request, fakeResponse.clone())
+            })
+            return fakeResponse.clone()
+          })
+        })
+        // return cached
+      }else
       if (!hasHash(event.request.url) && !/text\/html/.test(resourceType)) {
-        return cached;
-      }
+        return cached
+      }else
 
       // If the CSS/JS didn't change since it's been cached, return the cached version
       if (hasHash(event.request.url) && hasSameHash(event.request.url, cached.url)) {

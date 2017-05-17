@@ -21,24 +21,26 @@ Template.WidgetChartLine.onRendered(async function() {
   // Tracker.autorun(function()
   const instance = Template.instance()
 
-  let series = await Promise.all(widget.series.map(({
-    device,
-    attribute,
-    ...options
-  }) => {
-    return new Promise((resolve, reject) => {
-      Meteor.call('data.get',{ id:device, key:attribute}, function (error, data) {
-        if(error){
-          return reject(error);
-        }
-        const ret = {
-          ...options,
-          data: data.v.map((value, index) => [new Date(data.c[index]).getTime(), parseFloat(value)]).sort(([dataA], [dataB]) => dataA - dataB)
-        }
-        return resolve(ret);
-      });
-    });
-  }));
+  let series = await Promise.all(widget.series.map(({ device, attribute, ...options }) =>
+    Api.data(device, attribute).then(data => {
+      return {
+            ...options,
+            data: data.v.map((value, index) => [new Date(data.c[index]).getTime(), parseFloat(value)]).sort(([dataA], [dataB]) => dataA - dataB)
+          }
+    })));
+    // return new Promise((resolve, reject) => {
+    //   Meteor.call('data.get',{ id:device, key:attribute}, function (error, data) {
+    //     if(error){
+    //       return reject(error);
+    //     }
+    //     const ret = {
+    //       ...options,
+    //       data: data.v.map((value, index) => [new Date(data.c[index]).getTime(), parseFloat(value)]).sort(([dataA], [dataB]) => dataA - dataB)
+    //     }
+    //     return resolve(ret);
+      // });
+
+  // }));
   if (series.length == 0) {
     return
   }
@@ -49,8 +51,11 @@ Template.WidgetChartLine.onRendered(async function() {
   })
   this.subscribe('DataFromDashboard', {keys: widget.series.map(({device}) => device), variables: widget.series.map(({attribute}) => attribute)} )
   let map = Highcharts.stockChart(that.find('.graph'), {
+    legend: {
+      enabled: false
+    },
     chart: {
-      animation: false,
+      animation: true,
       zoomType: 'x',
       events: {
         load: () => {
