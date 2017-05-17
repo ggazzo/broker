@@ -91,7 +91,7 @@ Meteor.methods({
     }
     const match = {name:key, owner:thing._id}
     if (createAt) {
-      match.createAt = {$gte:new Date(createAt)}
+      match.createAt = {$gt:new Date(createAt)}
     }
     return Data.aggregate([
       {$match:match},

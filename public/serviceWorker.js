@@ -18,19 +18,20 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const requestToFetch = event.request.clone()
   event.respondWith(
-  caches.match(event.request.clone()).then((cached) => {
+  caches.match(event.request.clone()).then(async (cached) => {
     // We don't return cached HTML (except if fetch failed)
     if (cached) {
       const resourceType = cached.headers.get('content-type')
       // We only return non css/js/html cached response e.g images
 
+      if(!hasHash(event.request.url) && event.request.url.indexOf('api/v1/data') > -1) {
+        const oldData = await cached.json();
+        const data = oldData.c.reduce(function (a, b) { return a > b ? a : b; })
 
-      if(event.request.url.indexOf('api/v1/data') > -1) {
-        requestToFetch.url = `${ event.request.url }?createAt=${ new Date().toISOString() }`
-        return fetch(requestToFetch).then((response)=> {
-          return Promise.all([response.clone().json(), cached.json()]).then(([n, o]) => {
+        return fetch(`${ event.request.url }?createAt=${ data }`).then((response)=> {
+          return Promise.all([response.clone().json(), oldData]).then(([n, o]) => {
             o.v = [...o.v,...n.v]
-            o.c = [...o.v,...n.v]
+            o.c = [...o.c,...n.c]
             return o
           }).then(mergedData => {
             const clone1 = response.clone();
