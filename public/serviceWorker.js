@@ -25,38 +25,11 @@ self.addEventListener('fetch', (event) => {
       // We only return non css/js/html cached response e.g images
 
       if(!hasHash(event.request.url) && event.request.url.indexOf('api/v1/data') > -1) {
-        const oldData = await cached.json();
-        const data = oldData.c.reduce(function (a, b) { return a > b ? a : b; })
-
-        return fetch(`${ event.request.url }?createAt=${ data }`).then((response)=> {
-          return Promise.all([response.clone().json(), oldData]).then(([n, o]) => {
-            o.v = [...o.v,...n.v]
-            o.c = [...o.c,...n.c]
-            return o
-          }).then(mergedData => {
-            const clone1 = response.clone();
-            const fakeResponse = new Response(new Blob([JSON.stringify(mergedData, null, 2)], {type : 'application/json'}), response.clone())
-            if (hasHash(event.request.url)) {
-              caches.open(version).then(cache => cache.keys().then(keys => keys.forEach((asset) => {
-                if (new RegExp(removeHash(event.request.url)).test(removeHash(asset.url))) {
-                  cache.delete(asset)
-                }
-              })))
-            }
-            caches.open(version).then(cache => {
-              cache.put(event.request, fakeResponse.clone())
-            })
-            return fakeResponse.clone()
-          })
-        })
-        // return cached
-      }else
-      if (!hasHash(event.request.url) && !/text\/html/.test(resourceType)) {
+        return handleApiUrl(cached, event.request, event.request.url);
+      } else if (!hasHash(event.request.url) && !/text\/html/.test(resourceType)) {
         return cached
-      }else
-
-      // If the CSS/JS didn't change since it's been cached, return the cached version
-      if (hasHash(event.request.url) && hasSameHash(event.request.url, cached.url)) {
+      } // If the CSS/JS didn't change since it's been cached, return the cached version
+      else if (hasHash(event.request.url) && hasSameHash(event.request.url, cached.url)) {
         return cached;
       }
     }
@@ -98,6 +71,30 @@ self.addEventListener('fetch', (event) => {
   })
   );
 });
+
+async function handleApiUrl(cached, request, url){
+  const oldData = await cached.json();
+  const data = oldData.c.reduce(function (a, b) { return a > b ? a : b; })
+  const realRequest =  new Request(`${ url }?createAt=${ data }`, {method: request.method, headers: request.headers })
+  const response = await fetch(realRequest)
+  const mergedData = await Promise.all([response.clone().json(), oldData]).then(([n, o]) => {
+    if(n && n.v && o && o.v) {
+      o.v = [...o.v,...n.v]
+      o.c = [...o.c,...n.c]
+    }
+    return o
+  })
+  const fakeResponse = new Response(new Blob([JSON.stringify(mergedData, null, 2)], {type : 'application/json'}), response.clone())
+  caches.open(version).then(cache => cache.keys().then(keys => keys.forEach((asset) => {
+    // if (hasHash(request.url)) {
+    //   if (new RegExp(removeHash(request.url)).test(removeHash(asset.url))) {
+    //     cache.delete(asset)
+    //   }
+    // }
+    cache.put(request, fakeResponse.clone())
+  })))
+  return fakeResponse.clone()
+}
 
 function removeHash(element) {
   if (typeof element === 'string') return element.split('?hash=')[0];
