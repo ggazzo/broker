@@ -21,7 +21,11 @@ var settings = {
     // level: 'debug'
   },
   port: 1883,
-  backend: ascoltatore
+  backend: ascoltatore,
+  persistence: {
+      factory: mosca.persistence.Mongo,
+      url: 'mongodb://localhost:27017/mqtt'
+  }
 }
 
 var server = new mosca.Server(settings)
