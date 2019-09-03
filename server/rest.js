@@ -24,6 +24,7 @@ let REST = new Restivus({
   useDefaultAuth: true,
   version: 'v1'
 })
+
 REST.addRoute('data/:id/:key', { authRequired }, {
   get() {
     let data

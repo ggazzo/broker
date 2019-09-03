@@ -15,8 +15,9 @@ Template.WidgetList.helpers({
     return instance.state.get('selectedWidget')
   },
   widgetGroupArgs(group) {
-    const instance = Template.instance()
+		const instance = Template.instance()
     return {
+			selected: instance.state.get('selectedGroup'),
       group,
       select(group) {
         instance.state.set('selectedGroup', group)

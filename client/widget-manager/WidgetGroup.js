@@ -6,7 +6,11 @@ Template.WidgetGroup.events({
 })
 
 
-Template.WidgetGroup.helpers({  
+Template.WidgetGroup.helpers({
+
+	selected() {
+		return this.selected && this.group.name === this.selected.name && 'selected';
+	},
   dashboard() {
     // return 'oi'
     return Dashboard.findOne(FlowRouter.current().params.id)

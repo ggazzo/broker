@@ -2,6 +2,85 @@ import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
 SimpleSchema.extendOptions(['autoform'])
 
+
+const validate = doc => Object.values(doc).every(e => e);
+
+Template.WidgetPackageChartLine.helpers({
+	selectedDevice() {
+		return Template.instance().state.get('device');
+	},
+	variables() {
+		return Template.instance().state.get('variables');
+	},
+	devices() {
+		return Thing.find().map(function (p) {
+			return {
+				label: p.name,
+				value: p._id
+			}
+		})
+	},
+	disabled() {
+		const doc = Template.instance().state.all();
+
+		return validate(doc) ? '' : 'disabled';
+	}
+});
+
+const toEvent = event => ({[`change #${event}`]: (e, i) => {
+	i.state.set(event, e.target.value);
+}})
+
+const autoBind = events => Object.assign(...events.flatMap(toEvent));
+
+const fields = ['title', 'color', 'yAxis', 'device', 'attribute'];
+
+Template.WidgetPackageChartLine.events({
+	'submit form'(e, i) {
+		e.preventDefault();
+		const doc = i.state.all();
+
+		if (!validate(doc)) {
+			return;
+		}
+
+
+		const { device, color, attribute } = doc;
+
+		Meteor.call('widgets.add', {
+			'name': 'WidgetChartLine',
+			'dashboard': FlowRouter.current().params.id,
+			data: {
+				'title': doc.title,
+				'subtitle': doc.subtitle,
+				'yAxis': doc.yAxis,
+				'series': [{
+					device,
+					color,
+					attribute
+				}]
+			}
+		})
+	},
+	...autoBind(fields),
+});
+
+Template.WidgetPackageChartLine.onCreated(function () {
+	this.state = new ReactiveDict({
+		...Object.fromEntries(fields.map(e =>[e]))
+	});
+
+	this.autorun(() => {
+		const device = this.state.get('device');
+		if(!device) {
+			return this.state.set('variables', []);
+		}
+		this.state.set('variables', Thing.findOne(device).variable);
+	})
+});
+
+
+
 const pluginName = 'List'
 WidgetPackageChartLineSchema = new SimpleSchema({
   'title': {
@@ -39,26 +118,9 @@ WidgetPackageChartLineSchema = new SimpleSchema({
   },
   'series.$.attribute': {
     type: String,
-    autoform: {
-      type: 'select',
-      afFieldInput: {
-        options: function() {
-          return Variables.find().map(function(p) {
-            return {
-              label: p.name,
-              value: p.name
-              // value: p._id.toHexString()
-            }
-          })
-        }
-      }
-    }
   },
   'series.$.color': {
     type: String,
-    autoform: {
-      type: 'color'
-    }
   },
   createAt: {
     type: Date,
@@ -80,7 +142,7 @@ Widgets.add({
   schema: WidgetPackageChartLineSchema
 })
 
-// 
+//
 // Template.WidgetPackageChartLine.events({
 //   'change select': function(e) {
 //     console.log(e, this)
@@ -91,28 +153,5 @@ Widgets.add({
 //   $(this.find('.attr')).select2()
 // })
 // Template.WidgetPackageChartLine.onCreated(function() {
-AutoForm.addHooks('WidgetPackageChartLineID', {
-  onSubmit: function(insertDoc, updateDoc, currentDoc) {
-    this.event.preventDefault()
-
-    debugger
-    Meteor.call('widgets.add', {
-      'name': 'WidgetChartLine',
-      'dashboard': FlowRouter.current().params.id,
-      data: {
-        'title': insertDoc.title,
-        'subtitle': insertDoc.subtitle,
-        'yAxis': insertDoc.yAxis,
-        'series': insertDoc.series
-      }
-    }, (err, result) => {
-      if (err) return this.done(err) // failed to submit, call onError with the provided error
-      this.done(null, result) // submitted successfully, call onSuccess with `result` arg set to "foo"
-
-    })
-    // You must call this.done()!
-    //this.done(); // submitted successfully, call onSuccess
-  }
-}, true)
 
 // });

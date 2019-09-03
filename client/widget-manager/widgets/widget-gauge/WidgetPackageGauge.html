@@ -1,13 +1,64 @@
 <template name="WidgetPackageGauge">
-{{> quickForm schema="WidgetPackageGaugeSchema" id="WidgetPackageGauge" }}
+<form>
+	<div class="form-group">
+		<label for="Title">Title</label>
+		<input class="form-control" id="title" aria-describedby="Title" placeholder="Title">
+	</div>
 
+	<div class="form-group">
+		<label for="exampleFormControlSelect1">Device</label>
+		<select class="form-control" id="device">
+			<option></option>
+			{{#each device in devices}}
+			<option value="{{device.value}}">{{device.label}}</option>{{/each}}
+		</select>
+	</div>
+
+	<div class="form-group">
+		<label for="subtitle">Unit</label>
+		<input type="number" class="form-control js-unit" id="unit" aria-describedby="unit">
+	</div>
+
+	<div class="form-group">
+		<label for="subtitle">Suffix</label>
+		<input type="number" class="form-control js-sufix" id="unit" aria-describedby="sufix">
+	</div>
+	{{# if selectedDevice}}
+	<div class="form-group">
+		<label for="exampleFormControlSelect1">Variables</label>
+		<select class="form-control" id="attribute">
+			<option></option>
+			{{#each variable in variables}}
+			<option value="{{variable.name}}">{{variable.name}}</option>{{/each}}
+		</select>
+	</div>
+	{{/if}}
+	<h2>Bands</h2>
+	<ul class="list-group">
+		{{#each device in bands}} {{#with device}} {{injectIndex . @index}}
+		<li class="list-group-item">
+			<div class="form-group">
+				<label for="subtitle">from value</label>
+				<input type="number" class="form-control js-from" id="from-{{@index}}" aria-describedby="from">
+			</div>
+			<div class="form-group">
+				<label for="subtitle">to value</label>
+				<input type="number" class="form-control js-to" id="to-{{@index}}" aria-describedby="to">
+			</div>
+			<div class="form-group">
+				<label for="exampleFormControlSelect1">Color</label>
+				<input type="color" class="form-control js-color" id="color-{{@index}}" aria-describedby="color" placeholder="color">
+			</div>
+		</li>
+		{{/with}} {{/each}}
+		<div class="form-group">
+			<button type="button" class="btn btn-primary js-add">add band</button>
+		</div>
+	</ul>
+
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary" {{disabled}}>Submit</button>
+	</div>
+</form>
 </template>
-<!-- {{# autoForm schema="WidgetPackageGaugeSchema" id="userInsertForm" type="method"  meteormethod="widget.add" }}
-    {{> afQuickField name='title' }}
-    {{> afQuickField name='subtitle' }}
-    {{> afQuickField name='yAxis' }}
-    {{#  afArrayField   name = 'series' }}
-      {{> afArrayField    name="device" }}
-      {{> afArrayField    name="name" }}
-    {{/ afArrayField  }}
-{{/autoForm }} -->

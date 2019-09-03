@@ -6,17 +6,24 @@
     <div class="widget-package__list">
       {{#each group in groups}} {{> WidgetGroup (widgetGroupArgs group)}} {{/each}}
     </div>
-    {{#if selectedGroup}}
-    <div class="widget-package__label">
-      {{selectedGroup.description}}
-    </div>
+		{{#if selectedGroup}}
+
+		<div class="widget-package__label">
+			<div class="widget-package__list">
+				{{#each group in selectedGroup.list}} {{> WidgetGroup (widgetItemArgs group)}} {{/each}}
+			</div>
+		</div>
+
+		{{/if}}
+			<!--
     <div class="widget-package__list">
       {{#each group in selectedGroup.list}} {{> WidgetGroup (widgetItemArgs group)}} {{/each}}
-    </div>
+    </div>-->
     {{#if selectedWidget}}
       <div class="widget-package__form">
         {{> Template.dynamic template=template data=selectedWidget}}
       </div>
-    {{/if}}{{/if}}
+		{{/if}}
+
   </div>
 </template>

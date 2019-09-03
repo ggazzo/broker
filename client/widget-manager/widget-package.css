@@ -32,6 +32,13 @@
   background: #e7e7e7;
   box-shadow: 0 0 1px 2px #ccc inset;
 }
+
+.widget-package__container.selected {
+	background: #e7e7e7;
+	box-shadow: 0 0 1px 2px #ccc inset;
+}
+
+
 .widget-package__container__image {
   width: 90px;
   height: 90px;

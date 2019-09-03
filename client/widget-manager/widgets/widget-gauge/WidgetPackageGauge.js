@@ -1,6 +1,136 @@
+
+
+
 import Widgets from '../../widgets'
 import SimpleSchema from 'simpl-schema'
-SimpleSchema.extendOptions(['autoform'])
+
+
+const fields = ['title', 'yAxis', 'device', 'attribute', 'suffix', 'unit'];
+
+const toEvent = event => ({
+	[`change #${event}`]: (e, i) => {
+		i.state.set(event, e.target.value);
+	}
+})
+
+const toEventClass = event => ({
+	[`change .js-${event}`]: function (e, i) {
+		const devices = i.state.get('band');
+		devices[this.index][event] = e.target.value;
+		i.state.set('band', devices)
+	}
+})
+
+const autoBind = (events, fn = toEvent) => Object.assign(...events.flatMap(fn));
+const validate = doc => Object.values(doc).every(e => e);
+const newBand = () => {
+	return Object.fromEntries(['color', 'yAxis', 'device', 'attribute'].map(e => [e]))
+}
+
+Template.WidgetPackageGauge.helpers({
+	selectedDevice() {
+		return Template.instance().state.get('device');
+	},
+	injectIndex(data, index) {
+		data.index = index;
+	},
+	devices() {
+		return Thing.find().map(function (p) {
+			return {
+				label: p.name,
+				value: p._id
+			}
+		})
+	},
+	log() {
+		console.log(this);
+	},
+	name(id) {
+		return Thing.findOne(id).name
+	},
+	done() {
+		return this.done
+	},
+	variables() {
+		return Template.instance().state.get('variables');
+	},
+	band(index) {
+		return Template.instance().state.get('band')[index].device;
+	},
+	bands() {
+		return Template.instance().state.get('band');
+	}
+});
+
+Template.WidgetPackageGauge.events({
+	'click .js-add'(e, i) {
+		i.state.set('band', [...i.state.get('band'), newBand()]);
+	},
+	'click .js-done'(e, i) {
+		const devices = i.state.get('band');
+		const device = devices[this.index];
+		if (!validate(device)) {
+			return;
+		}
+		device.done = true;
+		devices.push(newBand());
+		i.state.set('band', devices);
+	},
+	'submit form'(e, i) {
+		e.preventDefault();
+		const { band, ...doc } = i.state.all();
+
+		if (!validate(doc)) {
+			return;
+		}
+
+
+		const { title, device, attribute } = doc;
+
+		Meteor.call('widgets.add', {
+			'name': 'WidgetGauge',
+			'dashboard': FlowRouter.current().params.id,
+			data: {
+				title,
+				bands: band,
+				'series': [{
+					device,
+					attribute
+				}]
+			}
+		})
+	},
+	...autoBind(['color', 'from', 'to'], toEventClass),
+	...autoBind(fields),
+});
+
+Template.WidgetPackageGauge.onCreated(function () {
+	this.state = new ReactiveDict();
+	this.state.set('band', [newBand()]);
+
+	this.autorun(() => {
+		const device = this.state.get('device');
+		if (!device) {
+			return this.state.set('variables', []);
+		}
+		this.state.set('variables', Thing.findOne(device).variable);
+	})
+
+	this.autorun(() => {
+		console.log(this.state.all())
+	})
+});
+
+
+
+
+
+
+
+
+
+
+
 
 const pluginName = 'Gauge'
 WidgetPackageGaugeSchema = new SimpleSchema({
@@ -80,6 +210,8 @@ WidgetPackageGaugeSchema = new SimpleSchema({
     }
   }
 })
+
+
 Widgets.add({
   name: pluginName,
   template: 'WidgetPackageGauge',

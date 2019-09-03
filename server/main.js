@@ -42,7 +42,7 @@ Meteor.publish('DataFromDashboard', function({keys, variables}) {
       $in: things
     },
     name: {
-      $in : variables
+      $in : [].concat(variables)
     },
     createAt:{
       '$gte': new Date()
@@ -89,20 +89,6 @@ Meteor.publish('dataLast', function({device, variable}) {
   })
 })
 
-Meteor.publish('Variables', function() {
-
-  let variables = Data.distinct('name')
-  let self = this
-  variables.forEach((v) => {
-    self.added('Variables', Random.id(), {
-      name: v
-    })
-  })
-  //
-  // return Variables.find(id ? {
-  //   owner: [...id]
-  // } : {});
-})
 
 
 Meteor.publish('Dashboards', function() {

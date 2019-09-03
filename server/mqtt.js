@@ -41,7 +41,8 @@ server.on('published',  Meteor.bindEnvironment(function ({topic, payload}, clien
   Data.insert(data)
 }))
 server.on('ready', () => {
-  //console.log('Mosca server is up and running')
+
+  console.log('Mosca server is up and running')
   server.authenticate = authenticate
   server.authorizePublish = authorizePublish
   server.authorizeSubscribe = authorizeSubscribe
@@ -49,6 +50,7 @@ server.on('ready', () => {
 
 // Accepts the connection if the username and password are valid
 var authenticate = Meteor.bindEnvironment(function(client, _id, token, callback) {
+	console.log(_id, token)
   // console.log(token.toString(), _id);
   const thing = Thing.findOne({token: token.toString(), _id})
   client.thing = thing

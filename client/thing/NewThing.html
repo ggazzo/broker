@@ -6,12 +6,18 @@
   </ol>
 
   <div class="well">
-    <h1>New thing</h1>
-    {{#autoForm collection="Thing" type="insert" id="insertBookForm"}} {{> afQuickField name="name"}} {{> afQuickField name="description"}}
-    <button type="submit" class="btn btn-primary"> Submit </button>
-    {{/autoForm}}
-
-    <!-- {{> quickForm collection="Thing" id="insertBookForm" type="insert"}} -->
+		<h1>New thing</h1>
+		<form>
+			<div class="form-group">
+				<label for="deviceDescription">Name</label>
+				<input class="form-control" id="deviceName" aria-describedby="emailHelp">
+			</div>
+			<div class="form-group">
+				<label for="deviceDescription">Description</label>
+				<textarea class="form-control" id="deviceDescription" rows="3"></textarea>
+			</div>
+			<button type="submit" class="btn btn-primary" disabled="{{loading}}">Submit</button>
+		</form>
   </div>
 </template>
 <!-- {{> quickForm collection="Thing" type="insert" id="Thing"}} -->

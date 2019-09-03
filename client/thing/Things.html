@@ -1,6 +1,6 @@
-<template name="Things">  
-    
-    
+<template name="Things">
+
+
       <div class="container things">
         <ol class="breadcrumb">
           <li><a href="/">Home</a></li>
@@ -16,11 +16,11 @@
                 <h4> id: {{_id}}</h4>
                 <h4> acess token: {{token}}</h4>
                 <p> Last update: {{timeAgo lastUpdate}}</p>
-                
+
                 <p class="btn-group" role="group" aria-label="...">
                   <a href="/device/{{_id}}" class="btn btn-info btn-xs" role="button">Open</a>
-                  <a href="#" class="btn btn-primary btn-xs" role="button">Edit</a>
-                  <a href="#" class="btn btn-deny btn-xs" role="button">Delete</a>
+                  <!-- <a href="#" class="btn btn-primary btn-xs" role="button">Edit</a> -->
+                  <a href="#" class="btn btn-deny btn-xs js-delete" role="button">Delete</a>
                 </p>
               </div>
             </div>

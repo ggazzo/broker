@@ -1,26 +1,55 @@
 <template name="WidgetPackageChartLineMultipleAxis">
   Device - variable
-  #{{size}}#
-  <form class="form" style="text-align:center">
-      <div class="form-group">
-        <label for="exampleInputName2">Title</label>
-        <input name='attr' class="form-control device"/>
-      </div>
+<form>
+	<div class="form-group">
+		<label for="Title">Title</label>
+		<input class="form-control" id="title" aria-describedby="Title" placeholder="Title">
+	</div>
 
-      <div class="form-group">
-        <label for="exampleInputName2">Subtitle</label>
-        <textarea name='attr' class="form-control device"></textarea>
-      </div>
-      <div class="form-group">
-        <label for="exampleInputName2">Y axis Label</label>
-        <textarea name='attr' class="form-control device"></textarea>
-      </div>
-      
-      {{#each loopCount size}}
-        {{> WidgetPackageChartLineDeviceAttr}}
-      {{/each}}
-    <div class="form-group">
-      <button type="button" name="button">add variable</button>
-    </div>
+	<ul class="list-group">
+
+		{{#each device in selectedDevices}}
+			{{#with device}}
+			{{injectIndex . @index}}
+			<li class="list-group-item">
+			{{#if done @index}} Device: {{name device.device}} Variable: {{attribute}} as {{device.yAxis}} {{log}} {{else}}
+				<div class="form-group">
+					<label for="exampleFormControlSelect1">Device</label>
+					<select class="form-control js-device" id="device-{{@index}}">
+						<option></option>
+						{{#each device in devices}}<option value="{{device.value}}">{{device.label}}</option>{{/each}}
+					</select>
+				</div>
+				{{# if selectedDevice @index}}
+					<div class="form-group">
+						<label for="subtitle">Y axis name</label>
+						<input class="form-control js-yAxis" id="yAxis-{{@index}}" aria-describedby="yAxis">
+					</div>
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Variables</label>
+						<select class="form-control js-attribute" id="attribute-{{@index}}">
+							<option></option>
+							{{#each variable in (variables @index)}}
+							<option value="{{variable.name}}">{{variable.name}}</option>{{/each}}
+						</select>
+					</div>
+					<div class="form-group">
+						<label for="exampleFormControlSelect1">Color</label>
+						<input type="color" class="form-control js-color" id="color-{{@index}}" aria-describedby="color" placeholder="color">
+					</div>
+					<div class="form-group">
+						<button type="button" class="btn btn-primary js-done">add device</button>
+					</div>
+				{{/if}}
+				{{/if}}
+			</li>
+			{{/with}}
+		{{/each}}
+	</ul>
+
+
+	<div class="form-group">
+		<button type="submit" class="btn btn-primary" {{disabled}}>Submit</button>
+	</div>
   </form>
 </template>

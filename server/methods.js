@@ -2,8 +2,24 @@ import Widget from '../collections/Widget'
 import Data from '../collections/Data'
 import Thing from '../collections/Thing'
 import { Meteor } from 'meteor/meteor'
+
 Meteor.methods({
-  'widgets.remove' (id) {
+	'device.remove.variable' ({_id, name}) {
+		if (Meteor.userId()) {
+			return Thing.direct.update({ _id }, {
+				$pull: {
+					variable: { name }
+				}
+			}, { bypassCollection2: true });
+		}
+	},
+	'device.add'({ name, description }) {
+		// TODO: verify if the widget belogns to user
+		if (Meteor.userId) {
+			return Thing.insert({ name, description });
+		}
+	},
+	'widgets.remove' (id) {
     // TODO: verify if the widget belogns to user
     if (Meteor.userId) {
       return Widget.remove(id)
@@ -78,7 +94,7 @@ Meteor.methods({
   },
   'data.get' ({id, key, createAt}) {
     if (!Meteor.userId() || !id || !key) {
-      return {}
+			return { v: [], c: [] }
     }
 
     const thing = Thing.findOne({
@@ -87,12 +103,12 @@ Meteor.methods({
     })
 
     if(!thing) {
-      return {}
+			return { v: [], c: [] }
     }
     const match = {name:key, owner:thing._id}
     if (createAt) {
       match.createAt = {$gte:new Date(createAt)}
-    }
+		}
     return Data.aggregate([
       {$match:match},
       {
@@ -122,7 +138,7 @@ Meteor.methods({
         c:{$push:'$createAt'},
       }
 
-    }])[0] || [{v:[],c:[]}]
+    }])[0] || {v:[],c:[]}
 
   }
 })

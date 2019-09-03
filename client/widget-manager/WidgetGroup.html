@@ -1,12 +1,12 @@
 <template name="WidgetGroup">
-  <div class="widget-package__container">
+  <div class="widget-package__container {{selected}}">
     <div class="widget-package__wrap">
       {{#if group.image}}
         <img src="{{group.image}}" alt="..." class="widget-package__container__image">
       {{/if}}
       <div class="widget-package__container__name">
         <p>{{group.name}}</p>
-      </div>      
+      </div>
     </div>
   </div>
 </template>

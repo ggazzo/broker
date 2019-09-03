@@ -14,3 +14,14 @@
       margin-bottom:0;
     }
 }
+
+.label:not(:last-child) {
+	margin-bottom: .5em;
+}
+
+.label {
+	color: #363636;
+	display: block;
+	font-size: 1rem;
+	font-weight: 700;
+}

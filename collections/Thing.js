@@ -17,9 +17,9 @@ let ThingSchema = new SimpleSchema({
       }
     }
   },
-  variable: {
-    type: Array
-  },
+  // variable: {
+  //   type: Array
+  // },
   'variable.$': {
     type: Object
   },
@@ -67,8 +67,8 @@ let ThingSchema = new SimpleSchema({
   token: {
     type: String,
     label: 'token acess',
-    autoValue: function() {
-      return RandToken.generate(16)
+    autoValue: function(args) {
+			return this.isInsert ? RandToken.generate(16): this.value
     },
     autoform: {
       afFieldInput: {

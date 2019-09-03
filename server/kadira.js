@@ -1,1 +1,0 @@
-// Kadira.connect('SkbCmQ7GB7pNaPQmD', 'dd816450-38ca-495b-8203-82084072001f');

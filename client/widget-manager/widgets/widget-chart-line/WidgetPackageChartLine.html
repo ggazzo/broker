@@ -1,6 +1,44 @@
 <template name="WidgetPackageChartLine">
-{{> quickForm schema="WidgetPackageChartLineSchema" id="WidgetPackageChartLineID" }}
+<!-- {{> quickForm schema="WidgetPackageChartLineSchema" id="WidgetPackageChartLineID" }} -->
 
+
+	<form>
+		<div class="form-group">
+			<label for="Title">Title</label>
+			<input class="form-control" id="title" aria-describedby="Title" placeholder="Title">
+		</div>
+		<!-- <div class="form-group">
+			<label for="subtitle">Subtitle</label>
+			<input class="form-control" id="subtitle" aria-describedby="subtitle" placeholder="subtitle">
+		</div> -->
+		<div class="form-group">
+			<label for="subtitle">Y axis name</label>
+			<input class="form-control" id="yAxis" aria-describedby="yAxis">
+		</div>
+		<div class="form-group">
+			<label for="exampleFormControlSelect1">Device</label>
+			<select class="form-control" id="device">
+				<option></option>
+				{{#each device in devices}}<option value="{{device.value}}">{{device.label}}</option>{{/each}}
+			</select>
+		</div>
+		{{# if selectedDevice}}
+		<div class="form-group">
+			<label for="exampleFormControlSelect1">Variables</label>
+			<select class="form-control" id="attribute">
+				<option></option>
+				{{#each variable in variables}}
+				<option value="{{variable.name}}">{{variable.name}}</option>{{/each}}
+			</select>
+		</div>
+
+		<div class="form-group">
+			<label for="exampleFormControlSelect1">Color</label>
+			<input type="color" class="form-control" id="color" aria-describedby="color" placeholder="color">
+		</div>
+		{{/if}}
+		<button type="submit" class="btn btn-primary" {{disabled}}>Submit</button>
+	</form>
 </template>
 <!-- {{# autoForm schema="WidgetPackageChartLineSchema" id="userInsertForm" type="method"  meteormethod="widget.add" }}
     {{> afQuickField name='title' }}
