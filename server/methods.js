@@ -90,7 +90,7 @@ Meteor.methods({
       value: parseFloat(value),
       owner: id
     }
-    return Data.insert(data)
+		return Data.direct.insert(data, { bypassCollection2: true })
   },
   'data.get' ({id, key, createAt}) {
     if (!Meteor.userId() || !id || !key) {
