@@ -88,7 +88,8 @@ Meteor.methods({
       name: key,
       text: value.toString(),
       value: parseFloat(value),
-      owner: id
+			owner: id,
+			createAt: new Date(),
     }
 		return Data.direct.insert(data, { bypassCollection2: true })
   },
@@ -109,6 +110,9 @@ Meteor.methods({
     if (createAt) {
       match.createAt = {$gte:new Date(createAt)}
 		}
+
+		console.log({ $match: match })
+
     return Data.aggregate([
       {$match:match},
       {

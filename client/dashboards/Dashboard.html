@@ -1,15 +1,14 @@
 <template name="Dashboard">
-  <div class="container">
-    <ol class="breadcrumb">
-      <li><a href="/">Home</a></li>
-      <li><a href="/Dashboards">Dashboards</a></li>
-      <li>{{dashboard.name}}</li>
-    </ol>
-    <h1>
-      {{dashboard.name}}
-    </h1>
-    {{# each widget in widgets}} {{widget.name}} {{> Template.dynamic template=widget.name data=widget}} {{/each}} 
-    {{dashboard.description}}
+	<ol class="breadcrumb">
+		<li><a href="/">Home</a></li>
+		<li><a href="/Dashboards">Dashboards</a></li>
+		<li>{{dashboard.name}}</li>
+	</ol>
+  <div class="container widget">
+    {{# each widget in widgets}} <div class="widget card">
+			<!-- {{widget.name}} -->
+			{{> Template.dynamic template=widget.name data=widget}} </div>{{/each}}
+    <!-- {{dashboard.description}} -->
     <a href="/dashboards/{{dashboard._id}}/new" class="btn btn-primary btn-fab add"><i class="material-icons fa fa-plus" aria-hidden="true"></i></a>
   </div>
 </template>

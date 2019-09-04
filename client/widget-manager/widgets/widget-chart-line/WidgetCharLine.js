@@ -54,15 +54,16 @@ const parseData = data => data.v.map((value, index) => [new Date(data.c[index]).
 Template.WidgetChartLine.onRendered(async function () {
 
 	// Tracker.autorun(function() {
-	const [widget] = this.data.data.series
+	const widget = this.data.data
 	// Tracker.autorun(function()
 	const instance = Template.instance()
 
 	this.state.set('loading', true);
 
+	const { device, attribute } = widget.series[0];
 	const serie = parseData(await call('data.get', {
-		id: widget.device,
-		key: widget.attribute
+		id: device,
+		key: attribute
 	}));
 
 	this.state.set('loading', false);
@@ -74,8 +75,8 @@ Template.WidgetChartLine.onRendered(async function () {
 	})
 
 	this.subscribe('DataFromDashboard', {
-		keys: widget.device,
-		variables: widget.attribute
+		keys: device,
+		variables: attribute
 	})
 
 	const map = Highcharts.stockChart(this.find('.graph'), {
@@ -135,12 +136,27 @@ Template.WidgetChartLine.onRendered(async function () {
 		series: [{
 			data: serie,
 			...widget.series
-		}]
+		}],
+		responsive: {
+			rules: [{
+				condition: {
+					maxWidth: '100%'
+				},
+				chartOptions: {
+					legend: {
+						layout: 'horizontal',
+						align: 'center',
+						verticalAlign: 'bottom'
+					}
+				}
+			}]
+		}
 	})
 
 	const cursor = Data.find({
-		owner: widget.device,
-		name: widget.attribute
+		owner: device,
+		name: attribute,
+		createAt: {$gt : new Date() }
 	}, {
 		sort: {
 			"createAt": 1

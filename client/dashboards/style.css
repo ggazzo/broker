@@ -1,0 +1,24 @@
+.container {
+	margin: auto !important;
+}
+.container.widget {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.widget {
+	margin: 5px;
+	flex: 1 1 auto;
+	display: flex;
+	width: auto;
+	box-shadow: none;
+	    justify-content: center;
+}
+
+.card .card-body {
+	flex: 1;
+	padding: 18px;
+	display: block;
+}
